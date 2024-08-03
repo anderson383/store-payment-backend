@@ -4,6 +4,7 @@
 
 #envs
 /env/development.env
+/env/production.env
 
 # Logs
 logs
