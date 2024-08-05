@@ -2,7 +2,7 @@
 import {EntityManager} from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { CustomerDao } from 'src/domain/user/dao/customer.dao';
+import { CustomerDao } from 'src/domain/ports/billing/dao/customer.dao';
 
 @Injectable()
 export class CustomerDaoService implements CustomerDao {

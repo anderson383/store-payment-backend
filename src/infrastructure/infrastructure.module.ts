@@ -4,7 +4,7 @@ import {
 import { dataBaseConfigFactory } from './config/data-base.config';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BillingModule } from './modules/billing/user.module';
+import { BillingModule } from './modules/billing/billing.module';
 import { InventaryModule } from './modules/inventary/inventary.module';
 
 @Module({imports: [
@@ -17,6 +17,6 @@ import { InventaryModule } from './modules/inventary/inventary.module';
     isGlobal: true
   }),
   BillingModule,
-  InventaryModule,
+  InventaryModule
 ] })
 export class InfrastructureModule {}
