@@ -15,14 +15,13 @@ const awsConfig = new AwsConfig()
 
 export const dataBaseConfigFactory = async (configService: ConfigService) => {
   const dbCredentials = await getDatabaseCredentials(configService);
-  console.log(dbCredentials, 'dbCredentials')
   return {
     type: configService.get(EnvVariables.DATABASE_TYPE),
-    host: configService.get(EnvVariables.DATABASE_HOST),
-    port: configService.get(EnvVariables.DATABASE_PORT),
-    username: configService.get(EnvVariables.DATABASE_USER),
-    password: configService.get(EnvVariables.DATABASE_PASSWORD),
-    database: configService.get(EnvVariables.DATABASE_NAME),
+    host: dbCredentials.host,
+    port: dbCredentials.port,
+    username: dbCredentials.username,
+    password: dbCredentials.password,
+    database: dbCredentials.database,
 
     entities: [configService.get(EnvVariables.TYPEORM_ENTITIES_DIR)],
     synchronize: true,
@@ -48,7 +47,6 @@ const getDatabaseCredentials = async (
     const region = configService.getOrThrow(EnvVariables.AWS_REGION);
     const storeEnv = configService.getOrThrow(EnvVariables.STORE_ENV);
     const rdsCreds = await awsConfig.getRDSCredentials(storeEnv, region);
-    console.log('entreee')
     return {
       host: rdsCreds.host,
       port: rdsCreds.port,
