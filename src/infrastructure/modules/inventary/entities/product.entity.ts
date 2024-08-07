@@ -13,6 +13,12 @@ export class ProductEntity extends BaseEntity {
   @Column({type: 'text'})
     description: string;
 
+  @Column({type: 'int'})
+  stock: number;
+
+  @Column({type: 'int'})
+  price: number;
+
   @Column({
     type: 'text',
     array: true

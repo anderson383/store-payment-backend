@@ -1,6 +1,6 @@
-import { PaymentDto } from "src/application/comanders/dtos/customer.dto";
+import { CustomerDto, PaymentDto } from "src/application/comanders/dtos/customer.dto";
 import { Customer } from "src/domain/models/customer";
 
 export abstract class CustomerRepository {
-  abstract create(customer: PaymentDto): Promise<Customer>;
+  abstract create(customer: CustomerDto): Promise<Customer>;
 }

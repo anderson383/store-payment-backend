@@ -4,7 +4,7 @@ import axios, { AxiosHeaders, AxiosRequestConfig, RawAxiosRequestHeaders } from 
 import { ConfigService } from '@nestjs/config';
 import { EnvVariables } from 'src/infrastructure/config/env/env-variables.enum';
 import { Logger } from '@nestjs/common';
-import { AcceptanceTokenType, TokenizePaymentType, TransactionResponseType } from 'src/infrastructure/config/types/provider-payment';
+import { AcceptanceTokenType, TokenizePaymentType, TransactionDetailResponse, TransactionResponseType } from 'src/infrastructure/config/types/provider-payment';
 import * as crypto from 'crypto';
 import * as moment from 'moment';
 import { CreditCardDto } from 'src/application/comanders/dtos/customer.dto';
@@ -80,10 +80,10 @@ export class PaymentService implements PaymentRepository {
     return this.signature
   } 
 
-  async createTransaction(email:string): Promise<void> {
+  async createTransaction(email:string): Promise<TransactionResponseType> {
     try {
       logger.log('Create transaction: ');
-      const { data: { data } } = await axios.post<TransactionResponseType>(`${this.endpointProvider}/v1/transactions`, {
+      const { data } = await axios.post<TransactionResponseType>(`${this.endpointProvider}/v1/transactions`, {
         "amount_in_cents": this.creditCard.amount,
         "reference": this._reference,
         "currency": this.currency,
@@ -96,7 +96,20 @@ export class PaymentService implements PaymentRepository {
             "token": this.tokenizePayment.id,
         }
     }, { headers: { ...this.headers } })
+      return data;
+    } catch(err) {
+      logger.fatal('Error create transactions: ');
+      console.error(err.response.data.error)
+      throw new Error(err.response.data.error)
+    }
+  }
 
+  async getStatusTransaction(idTransaction: string): Promise<string> {
+    try {
+      logger.log('Create transaction: ');
+      const { data } = await axios.get<TransactionDetailResponse>(`${this.endpointProvider}/v1/transactions/${idTransaction}`, { headers: { ...this.headers } })
+      console.log(data.data.status, 'data.data.status')
+      return data.data.status;
     } catch(err) {
       logger.fatal('Error create transactions: ');
       console.error(err.response.data.error)

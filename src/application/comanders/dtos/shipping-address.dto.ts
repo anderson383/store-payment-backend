@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from "class-validator";
 
 export class ShippingAddressDto {  
   @IsNotEmpty()
@@ -15,4 +15,7 @@ export class ShippingAddressDto {
 
   @IsNotEmpty()
   customerId: string;
+
+  @IsNotEmpty()
+  productId: string;
 }

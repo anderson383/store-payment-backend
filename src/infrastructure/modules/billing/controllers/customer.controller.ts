@@ -3,11 +3,12 @@ import {
   Controller, Get, Param, Post, Request, UseGuards, Query, Res
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CallbackPaymentCommand } from 'src/application/comanders/billing/callback-payment.command';
 import { CreatePaymentCommand } from 'src/application/comanders/billing/create-payment.command';
-import { PaymentDto } from 'src/application/comanders/dtos/customer.dto';
+import { CallbackPaymentDto, PaymentDto } from 'src/application/comanders/dtos/customer.dto';
 
 @Controller('billing/payment')
-export class CustomerController {
+export class BillingController {
 
   constructor (
     private command: CommandBus,
@@ -21,5 +22,12 @@ export class CustomerController {
     return this.command.execute(
       new CreatePaymentCommand(customerData)
     );
+  }
+
+  @Post('/callback')
+  callbackPayment(@Body() customerData: CallbackPaymentDto) {
+    return this.command.execute(
+      new CallbackPaymentCommand(customerData)
+    )
   }
 }

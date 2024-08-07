@@ -19,9 +19,10 @@ export class ShippingAddressService implements ShippingAddressRepository{
         city: customerData.city,
         deparment: customerData.deparment,
         phone: customerData.phone,
-        customerId: customerData.customerId
+        customerId: customerData.customerId,
+        productId: customerData.productId
       })
-      .returning('*') 
+      .returning('*')
       .execute();
 
     const insertCust = result.raw[0];

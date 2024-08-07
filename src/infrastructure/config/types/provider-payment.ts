@@ -68,3 +68,17 @@ export interface TransactionResponseType {
     tip_in_cents: any
   }
 }
+
+
+export interface TransactionDetailResponse {
+  data:{
+    id: string
+    created_at: string
+    finalized_at: string
+    amount_in_cents: number
+    reference: string
+    currency: string
+    payment_method_type: string
+    status: string;
+  }
+}

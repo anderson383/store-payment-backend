@@ -52,6 +52,15 @@ export class CreditCardDto {
   amount: number;
 }
 
+export class ProductDto {
+  @IsNotEmpty()
+  id: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
+}
+
 export class PaymentDto {
   
   @ValidateNested()
@@ -68,4 +77,20 @@ export class PaymentDto {
   @Type(() => CreditCardDto)
   @IsNotEmpty()
   creditCard: CreditCardDto
+
+  @ValidateNested()
+  @Type(() => ProductDto)
+  @IsNotEmpty()
+  product: ProductDto
+}
+
+export class CallbackPaymentDto {
+  @IsNotEmpty()
+  transactionId: string;
+
+  @IsNotEmpty()
+  transactionProviderId: string;
+
+  @IsNotEmpty()
+  productId: string;
 }
