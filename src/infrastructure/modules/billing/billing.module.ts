@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CustomerController } from './controllers/customer.controller';
+import { BillingController } from './controllers/customer.controller';
 import { CustomerRepository } from 'src/domain/ports/billing/repository/customer.repository';
 import { CustomerService } from './adapter/repository/customer.service';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -12,13 +12,17 @@ import { TransactionRepository } from 'src/domain/ports/billing/repository/trans
 import { TransactionService } from './adapter/repository/transaction.service';
 import { TransactionDao } from 'src/domain/ports/billing/dao/transaction.dao';
 import { TransactionDaoService } from './adapter/dao/transaction-dao.service';
+import { InventaryModule } from '../inventary/inventary.module';
+import { CallbackPaymentHandler } from 'src/application/comanders/billing/callback-payment.handler';
 
 @Module({
   imports: [
-    CqrsModule
+    CqrsModule,
+    InventaryModule
   ],
   providers: [
     CreatePaymentHandler,
+    CallbackPaymentHandler,
     {
       provide: CustomerRepository,
       useClass: CustomerService
@@ -40,7 +44,7 @@ import { TransactionDaoService } from './adapter/dao/transaction-dao.service';
       useClass: TransactionDaoService
     }
   ],
-  controllers: [CustomerController]
+  controllers: [BillingController]
 })
 export class BillingModule {}
 

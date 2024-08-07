@@ -2,22 +2,22 @@
 import { EntityManager } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { CustomerEntity } from '../../entity/customer.entity';
-import { PaymentDto } from 'src/application/comanders/dtos/customer.dto';
+import { CustomerDto, PaymentDto } from 'src/application/comanders/dtos/customer.dto';
 import { Customer } from 'src/domain/models/customer';
 import { CustomerRepository } from 'src/domain/ports/billing/repository/customer.repository';
 
 export class CustomerService implements CustomerRepository {
   constructor(@InjectEntityManager() private entityManager: EntityManager) {}
 
-  async create(customerData: PaymentDto): Promise<Customer> {
+  async create(customerData: CustomerDto): Promise<Customer> {
     const result = await this.entityManager
       .createQueryBuilder()
       .insert()
       .into(CustomerEntity)
       .values({
-        name: customerData.customer.name,
-        email: customerData.customer.email,
-        lastname: customerData.customer.lastname
+        name: customerData.name,
+        email: customerData.email,
+        lastname: customerData.lastname
       })
       .returning('*') 
       .execute();
