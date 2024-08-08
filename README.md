@@ -27,6 +27,7 @@
 - **Class-transformer**
 - **Moment.js**
 - **AWS RDS**
+- **AWS S3 Bucket for images**
 
 ## Getting Started
 
