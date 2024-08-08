@@ -29,14 +29,12 @@ export class CallbackPaymentHandler implements ICommandHandler<CallbackPaymentCo
       let statusTransactionProvider;
       let countCallback = 0
 
-      while (countCallback<=10) {
+      while (countCallback<=20) {
         statusTransactionProvider = await this._paymentRepository.getStatusTransaction(transactionProviderId)
-        if (statusTransactionProvider === STATUS_TRANSACTION.APPROVED) countCallback = 10
+        if (statusTransactionProvider === STATUS_TRANSACTION.APPROVED) countCallback = 21
         countCallback++;
       }
-      console.log(transactionData.status_transaction, 'transactionData.status_transaction ')
       if (transactionData.status_transaction === STATUS_TRANSACTION.PENDING) {
-        console.log(statusTransactionProvider, 'statusTransactionProvider')
         await this._transactionRepository.updateTransaction(transactionId, {
           status_transaction: statusTransactionProvider,
         })
