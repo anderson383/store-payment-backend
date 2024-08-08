@@ -56,12 +56,10 @@ export class PaymentService implements PaymentRepository {
     }
   }
 
-
   async getObtainToken(): Promise<string | void> {
     try {
       logger.log('Get token from provider');
       const { data: { data } } = await axios.get<AcceptanceTokenType>(`${this.endpointProvider}/v1/merchants/${this.providerKey}`)
-      console.log(data.presigned_acceptance.acceptance_token, 'token')
 
       this.acceptanceToken = data.presigned_acceptance.acceptance_token
       return this.acceptanceToken
@@ -108,7 +106,7 @@ export class PaymentService implements PaymentRepository {
     try {
       logger.log('Create transaction: ');
       const { data } = await axios.get<TransactionDetailResponse>(`${this.endpointProvider}/v1/transactions/${idTransaction}`, { headers: { ...this.headers } })
-      console.log(data.data.status, 'data.data.status')
+      logger.log('Status transaction: ', data.data.status);
       return data.data.status;
     } catch(err) {
       logger.fatal('Error create transactions: ');
